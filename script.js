@@ -9,17 +9,17 @@ function copyText(text) {
 }
 
 function notify(message, type, context) {
-  let creat;
+  let notificationDiv;
   if (
     document.getElementById("notification-area") === undefined ||
     document.getElementById("notification-area") === null
   ) {
-    creat = document.createElement("div");
-    creat.id = "notification-area";
+    notificationDiv = document.createElement("div");
+    notificationDiv.id = "notification-area";
 
-    document.body.append(creat);
+    document.body.append(notificationDiv);
   } else {
-    creat = document.getElementById("notification-area");
+    notificationDiv = document.getElementById("notification-area");
   }
   let createdDiv = document.createElement("div");
   let id = Math.random().toString(36).substring(2, 10);
@@ -74,7 +74,7 @@ let textAreas = document.querySelectorAll(".code-area");
 let editAreas = document.querySelectorAll(".edit-area");
 
 const savedCodes = JSON.parse(localStorage.getItem("codes"));
-let codesStatic = savedCodes ?? [];
+let locallySavedCodes = savedCodes ?? [];
 
 if (savedCodes) {
   savedCodes.forEach((codeObject) => {
@@ -82,7 +82,9 @@ if (savedCodes) {
     createdEl.classList.add("code-div");
 
     createdEl.innerHTML = `
-  <input type="text" class="code-title" placeholder="untitled" value="${codeObject.title}" maxlength="35">
+  <input type="text" class="code-title" placeholder="untitled" value="${
+    codeObject.title
+  }" maxlength="35">
 
   <select class="select-lang">
     <option value="html">HTML</option>
@@ -124,8 +126,14 @@ if (savedCodes) {
     </button>
   </div>
 
-  <textarea class="area edit-area hide" spellcheck="false" placeholder="edit your code...">${codeObject.code}</textarea>
-  <pre class="language-${codeObject.lang} area code-area">${codeObject.code.replaceAll("\n", "\n").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")}</pre>
+  <textarea class="area edit-area hide" spellcheck="false" placeholder="edit your code...">${
+    codeObject.code
+  }</textarea>
+  <pre class="language-${codeObject.lang} area code-area">${codeObject.code
+      .replaceAll("\n", "\n")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")}</pre>
 `;
 
     mainContainer.append(createdEl);
@@ -143,18 +151,17 @@ if (savedCodes) {
 
 codeTitles.forEach((title, index) => {
   title.addEventListener("input", (e) => {
-    codesStatic[index].title = e.target.value;
+    locallySavedCodes[index].title = e.target.value;
 
-    localStorage.setItem("codes", JSON.stringify(codesStatic));
+    localStorage.setItem("codes", JSON.stringify(locallySavedCodes));
   });
 });
 
 toggleEditBtns.forEach((btn, index) => {
-
   btn.addEventListener("click", () => {
-    codesStatic[index].code = editAreas[index].value;
+    locallySavedCodes[index].code = editAreas[index].value;
     textAreas[index].textContent = editAreas[index].value;
-    localStorage.setItem("codes", JSON.stringify(codesStatic));
+    localStorage.setItem("codes", JSON.stringify(locallySavedCodes));
 
     if (btn.querySelector("i").classList.contains("bi-check-lg")) {
       refreshPage();
@@ -164,14 +171,15 @@ toggleEditBtns.forEach((btn, index) => {
     textAreas[index].classList.toggle("hide");
     editAreas[index].classList.toggle("hide");
   });
-
 });
 
 copyBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
     copyText(textAreas[index].textContent);
     notify(
-      `Copied code of <bold>${codesStatic[index].title || "untitled"}</bold>`,
+      `Copied code of <bold>${
+        locallySavedCodes[index].title || "untitled"
+      }</bold>`,
       "info"
     );
   });
@@ -179,16 +187,18 @@ copyBtns.forEach((btn, index) => {
 
 deleteBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
-
     allCodeDivs[index].remove();
     allCodeDivs = document.querySelectorAll(".code-div");
 
-    codesStatic = [];
+    locallySavedCodes = [];
 
     allCodeDivs.forEach((div) => {
       const divTitle = div.querySelector(".code-title").value;
       const divCode = div.querySelector(".code-area").textContent;
-      const lang = div.querySelector(".select-lang")[div.querySelector(".select-lang").selectedIndex].value;
+      const lang =
+        div.querySelector(".select-lang")[
+          div.querySelector(".select-lang").selectedIndex
+        ].value;
 
       const newData = {
         title: divTitle,
@@ -196,42 +206,37 @@ deleteBtns.forEach((btn, index) => {
         lang: lang,
       };
 
-      codesStatic.push(newData);
+      locallySavedCodes.push(newData);
     });
 
-    localStorage.setItem("codes", JSON.stringify(codesStatic));
+    localStorage.setItem("codes", JSON.stringify(locallySavedCodes));
     refreshPage();
-
   });
 });
 
 allSelectLangs.forEach((select, index) => {
-
   select.querySelectorAll("option").forEach((option, i) => {
-
-    if (option.value == codesStatic[index].lang) {
+    if (option.value == locallySavedCodes[index].lang) {
       option.selected = true;
     }
-
   });
 
   select.addEventListener("change", () => {
-    codesStatic[index].lang = select[select.selectedIndex].value;
-    localStorage.setItem("codes", JSON.stringify(codesStatic));
+    locallySavedCodes[index].lang = select[select.selectedIndex].value;
+    localStorage.setItem("codes", JSON.stringify(locallySavedCodes));
     refreshPage();
-  })
-})
+  });
+});
 
 addCodeBtn.addEventListener("click", () => {
-
   const codeInfo = {
     title: "",
     code: "",
-    lang: "none"
+    lang: "none",
   };
 
-  codesStatic.push(codeInfo);
-  localStorage.setItem("codes", JSON.stringify(codesStatic));
+  locallySavedCodes.push(codeInfo);
+  localStorage.setItem("codes", JSON.stringify(locallySavedCodes));
 
   refreshPage();
 });

@@ -250,7 +250,7 @@ h1 {
 .btn-group {
   position: absolute;
   top: 3rem;
-  right: 3rem;
+  right: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -287,9 +287,9 @@ h1 {
   font-size: 1.1rem;
   background-color: #444;
   height: 250px;
-  width: calc(100% - 5rem);
+  width: calc(100% - 2rem);
   position: absolute;
-  top: 8rem;
+  top: 9rem;
   left: 1rem;
   overflow: scroll;
   border: solid 2px transparent;
@@ -311,8 +311,4 @@ h1 {
 .edit-area {
   color: rgb(215, 215, 215);
   line-height: 1.5;
-}
-
-.popup__btn-delete {
-  background: rgb(229, 98, 98) !important;
 }
