@@ -82,9 +82,8 @@ if (savedCodes) {
     createdEl.classList.add("code-div");
 
     createdEl.innerHTML = `
-  <input type="text" class="code-title" placeholder="untitled" value="${
-    codeObject.title
-  }" maxlength="35">
+  <input type="text" class="code-title" placeholder="untitled" value="${codeObject.title
+      }" maxlength="35">
 
   <select class="select-lang">
     <option value="html">HTML</option>
@@ -126,14 +125,13 @@ if (savedCodes) {
     </button>
   </div>
 
-  <textarea class="area edit-area hide" spellcheck="false" placeholder="edit your code...">${
-    codeObject.code
-  }</textarea>
+  <textarea class="area edit-area hide" spellcheck="false" placeholder="edit your code...">${codeObject.code
+      }</textarea>
   <pre class="language-${codeObject.lang} area code-area">${codeObject.code
-      .replaceAll("\n", "\n")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")}</pre>
+        .replaceAll("\n", "\n")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")}</pre>
 `;
 
     mainContainer.append(createdEl);
@@ -177,8 +175,7 @@ copyBtns.forEach((btn, index) => {
   btn.addEventListener("click", () => {
     copyText(textAreas[index].textContent);
     notify(
-      `Copied code of <bold>${
-        locallySavedCodes[index].title || "untitled"
+      `Copied code of <bold>${locallySavedCodes[index].title || "untitled"
       }</bold>`,
       "info"
     );
@@ -240,3 +237,13 @@ addCodeBtn.addEventListener("click", () => {
 
   refreshPage();
 });
+
+editAreas.forEach((area) => {
+  area.addEventListener("keydown", (e) => {
+    console.log(e.key);
+    if (e.key === 'Tab'){
+      e.preventDefault();
+      area.value += "    ";
+    }
+  })
+})
