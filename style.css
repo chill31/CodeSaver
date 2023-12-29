@@ -192,10 +192,11 @@ h1 {
 
 .code-container .code-div {
   height: 450px;
-  width: 40rem;
+  width: 50rem;
   max-width: 95vw;
-  background-color: #333;
+  background-color: #3a434b;
   position: relative;
+  border-radius: .3rem;
 }
 
 @media (max-width: 574px) {
@@ -238,7 +239,7 @@ h1 {
   color: white;
   transition: border 100ms ease;
   position: absolute;
-  left: 2rem;
+  left: 1.5rem;
   top: 2.5rem;
   max-width: 13rem;
 }
@@ -285,15 +286,16 @@ h1 {
 
 .area {
   font-size: 1.1rem;
-  background-color: #444;
+  background-color: #0a0c0e;
   height: 250px;
   width: calc(100% - 2rem);
+  border-radius: .3rem;
   position: absolute;
   top: 9rem;
   left: 1rem;
   overflow: scroll;
   border: solid 2px transparent;
-  padding: .5em 1em !important;
+  padding: .5rem 1rem !important;
   resize: none;
   color: white;
   outline: none !important;
@@ -304,7 +306,6 @@ h1 {
 }
 
 .code-area:focus {
-  border: solid 2px white;
   outline: none !important;
 }
 
